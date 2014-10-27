@@ -568,6 +568,68 @@ extension Matrix33 {
         
         return true;
     }
+    
+    //MARK: raw data
+    
+    func getColumnMajor(inout rawMatrix: [Float32]) {
+        
+        rawMatrix[0] = m[0][0]
+        rawMatrix[3] = m[0][1]
+        rawMatrix[6] = m[0][2]
+        
+        rawMatrix[1] = m[1][0]
+        rawMatrix[4] = m[1][1]
+        rawMatrix[7] = m[1][2]
+        
+        rawMatrix[2] = m[2][0]
+        rawMatrix[5] = m[2][1]
+        rawMatrix[8] = m[2][2]
+    }
+    
+    func gerRowMajor(inout rawMatrix: [Float32]) {
+    
+        rawMatrix[0] = m[0][0]
+        rawMatrix[1] = m[0][1]
+        rawMatrix[2] = m[0][2]
+        
+        rawMatrix[3] = m[1][0]
+        rawMatrix[4] = m[1][1]
+        rawMatrix[5] = m[1][2]
+        
+        rawMatrix[6] = m[2][0]
+        rawMatrix[7] = m[2][1]
+        rawMatrix[8] = m[2][2]
+    }
+    
+    func getColumnMajorStride4(inout rawMatrix: [Float32]) {
+    
+        rawMatrix[0]  = m[0][0]
+        rawMatrix[4]  = m[0][1]
+        rawMatrix[8]  = m[0][2]
+        
+        rawMatrix[1]  = m[1][0]
+        rawMatrix[5]  = m[1][1]
+        rawMatrix[9]  = m[1][2]
+        
+        rawMatrix[2]  = m[2][0]
+        rawMatrix[6]  = m[2][1]
+        rawMatrix[10] = m[2][2]
+    }
+    
+    func getRowMajorStride4(inout rawMatrix: [Float32]) {
+    
+        rawMatrix[0]  = m[0][0]
+        rawMatrix[1]  = m[0][1]
+        rawMatrix[2]  = m[0][2]
+        
+        rawMatrix[4]  = m[1][0]
+        rawMatrix[5]  = m[1][1]
+        rawMatrix[6]  = m[1][2]
+        
+        rawMatrix[8]  = m[2][0]
+        rawMatrix[9]  = m[2][1]
+        rawMatrix[10] = m[2][2]
+    }
 }
 
 func + (left: Matrix33, right: Matrix33) -> Matrix33 {
