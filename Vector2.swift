@@ -1,6 +1,6 @@
 //
 //  Vector2.swift
-//  Arpeggios
+//  SwiftGeom
 //
 //  Created by Marcin Pędzimąż on 22.10.2014.
 //  Copyright (c) 2014 Marcin Pedzimaz. All rights reserved.

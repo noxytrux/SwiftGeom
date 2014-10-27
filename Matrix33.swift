@@ -1,6 +1,6 @@
 //
 //  Matrix33.swift
-//  Arpeggios
+//  SwiftGeom
 //
 //  Created by Marcin Pędzimąż on 23.10.2014.
 //  Copyright (c) 2014 Marcin Pedzimaz. All rights reserved.
@@ -65,6 +65,11 @@ class Matrix33 {
 
 extension Matrix33 {
 
+    func isFinite() -> Bool {
+    
+        return  m[0][0].isFinite && m[0][1].isFinite && m[0][2].isFinite && m[1][0].isFinite && m[1][1].isFinite && m[1][2].isFinite && m[2][0].isFinite && m[2][1].isFinite && m[2][2].isFinite
+    }
+    
     func fromQuat(q: Quaternion) {
         
         let w = q.w;
@@ -366,7 +371,203 @@ extension Matrix33 {
     
     //MARK: matrix multiply
     
+    func multiply(left: Matrix33, right: Matrix33) {
     
+        var a:Float32,b:Float32,c:Float32,d:Float32,e:Float32,f:Float32,g:Float32,h:Float32,i:Float32
+        
+        a = left[0,0] * right[0,0] + left[0,1] * right[1,0] + left[0,2] * right[2,0]
+        b = left[0,0] * right[0,1] + left[0,1] * right[1,1] + left[0,2] * right[2,1]
+        c = left[0,0] * right[0,2] + left[0,1] * right[1,2] + left[0,2] * right[2,2]
+        
+        d = left[1,0] * right[0,0] + left[1,1] * right[1,0] + left[1,2] * right[2,0]
+        e = left[1,0] * right[0,1] + left[1,1] * right[1,1] + left[1,2] * right[2,1]
+        f = left[1,0] * right[0,2] + left[1,1] * right[1,2] + left[1,2] * right[2,2]
+        
+        g = left[2,0] * right[0,0] + left[2,1] * right[1,0] + left[2,2] * right[2,0]
+        h = left[2,0] * right[0,1] + left[2,1] * right[1,1] + left[2,2] * right[2,1]
+        i = left[2,0] * right[0,2] + left[2,1] * right[1,2] + left[2,2] * right[2,2]
+        
+        m[0][0] = a
+        m[0][1] = b
+        m[0][2] = c
+        
+        m[1][0] = d
+        m[1][1] = e
+        m[1][2] = f
+        
+        m[2][0] = g
+        m[2][1] = h
+        m[2][2] = i
+    }
+    
+    func multiplyTransposeLeft(left: Matrix33, right: Matrix33) {
+    
+        var a:Float32,b:Float32,c:Float32,d:Float32,e:Float32,f:Float32,g:Float32,h:Float32,i:Float32
+        
+        a = left[0,0] * right[0,0] + left[1,0] * right[1,0] + left[2,0] * right[2,0]
+        b = left[0,0] * right[0,1] + left[1,0] * right[1,1] + left[2,0] * right[2,1]
+        c = left[0,0] * right[0,2] + left[1,0] * right[1,2] + left[2,0] * right[2,2]
+        
+        d = left[0,1] * right[0,0] + left[1,1] * right[1,0] + left[2,1] * right[2,0]
+        e = left[0,1] * right[0,1] + left[1,1] * right[1,1] + left[2,1] * right[2,1]
+        f = left[0,1] * right[0,2] + left[1,1] * right[1,2] + left[2,1] * right[2,2]
+        
+        g = left[0,2] * right[0,0] + left[1,2] * right[1,0] + left[2,2] * right[2,0]
+        h = left[0,2] * right[0,1] + left[1,2] * right[1,1] + left[2,2] * right[2,1]
+        i = left[0,2] * right[0,2] + left[1,2] * right[1,2] + left[2,2] * right[2,2]
+        
+        m[0][0] = a
+        m[0][1] = b
+        m[0][2] = c
+        
+        m[1][0] = d
+        m[1][1] = e
+        m[1][2] = f
+        
+        m[2][0] = g
+        m[2][1] = h
+        m[2][2] = i
+    }
+    
+    func multiplyTransposeRight(left: Matrix33, right: Matrix33) {
+        
+        var a:Float32,b:Float32,c:Float32,d:Float32,e:Float32,f:Float32,g:Float32,h:Float32,i:Float32
+        
+        a = left[0,0] * right[0,0] + left[0,1] * right[0,1] + left[0,2] * right[0,2]
+        b = left[0,0] * right[1,0] + left[0,1] * right[1,1] + left[0,2] * right[1,2]
+        c = left[0,0] * right[2,0] + left[0,1] * right[2,1] + left[0,2] * right[2,2]
+        
+        d = left[1,0] * right[0,0] + left[1,1] * right[0,1] + left[1,2] * right[0,2]
+        e = left[1,0] * right[1,0] + left[1,1] * right[1,1] + left[1,2] * right[1,2]
+        f = left[1,0] * right[2,0] + left[1,1] * right[2,1] + left[1,2] * right[2,2]
+        
+        g = left[2,0] * right[0,0] + left[2,1] * right[0,1] + left[2,2] * right[0,2]
+        h = left[2,0] * right[1,0] + left[2,1] * right[1,1] + left[2,2] * right[1,2]
+        i = left[2,0] * right[2,0] + left[2,1] * right[2,1] + left[2,2] * right[2,2]
+        
+        m[0][0] = a
+        m[0][1] = b
+        m[0][2] = c
+        
+        m[1][0] = d
+        m[1][1] = e
+        m[1][2] = f
+        
+        m[2][0] = g
+        m[2][1] = h
+        m[2][2] = i
+    }
+    
+    func multiplyTransposeRight(left: Vector3, right: Vector3) {
+        
+        m[0][0] = left.x * right.x
+        m[0][1] = left.x * right.y
+        m[0][2] = left.x * right.z
+        
+        m[1][0] = left.y * right.x
+        m[1][1] = left.y * right.y
+        m[1][2] = left.y * right.z
+        
+        m[2][0] = left.z * right.x
+        m[2][1] = left.z * right.y
+        m[2][2] = left.z * right.z
+    }
+    
+    //MARK: rotation
+    
+    func rotX(angle: Float32) {
+    
+        var Cos: Float32 = cosf(angle)
+        var Sin: Float32 = sinf(angle)
+        
+        identity()
+        
+        m[2][2] = Cos
+        m[1][1] = Cos
+        m[1][2] = -Sin
+        m[2][1] = Sin
+    }
+    
+    func rotY(angle: Float32) {
+        
+        var Cos: Float32 = cosf(angle)
+        var Sin: Float32 = sinf(angle)
+        
+        identity()
+        
+        m[2][2] = Cos
+        m[0][0] = Cos
+        m[0][2] = Sin
+        m[2][0] = -Sin
+    }
+    
+    func rotZ(angle: Float32) {
+        
+        var Cos: Float32 = cosf(angle)
+        var Sin: Float32 = sinf(angle)
+        
+        identity()
+        
+        m[1][1] = Cos
+        m[0][0] = Cos
+        m[0][1] = -Sin
+        m[1][0] = Sin
+    }
+    
+    func determinant() -> Float32 {
+     
+        var a = m[0][0] * m[1][1] * m[2][2]
+        var b = m[0][1] * m[1][2] * m[2][1]
+        var c = m[0][2] * m[1][0] * m[2][1]
+        var d = m[0][2] * m[1][1] * m[2][0]
+        var e = m[0][1] * m[1][0] * m[2][2]
+        var f = m[0][0] * m[1][2] * m[2][1]
+        
+        return a + b + c - d - e - f
+    }
+    
+    func getInverse(inout dest: Matrix33) -> Bool {
+        
+        var b00: Float32,b01: Float32,b02: Float32,b10: Float32,b11: Float32,b12: Float32,b20: Float32,b21: Float32,b22: Float32
+        
+        b00 = m[1][1] * m[2][2] - m[1][2] * m[2][1]
+        b01 = m[0][2] * m[2][1] - m[0][1] * m[2][2]
+        b02 = m[0][1] * m[1][2] - m[0][2] * m[1][1]
+        
+        b10 = m[1][2] * m[2][0] - m[1][0] * m[2][2]
+        b11 = m[0][0] * m[2][2] - m[0][2] * m[2][0]
+        b12 = m[0][2] * m[1][0] - m[0][0] * m[1][2]
+        
+        b20 = m[1][0] * m[2][1] - m[1][1] * m[2][0]
+        b21 = m[0][1] * m[2][0] - m[0][0] * m[2][1]
+        b22 = m[0][0] * m[1][1] - m[0][1] * m[1][0]
+        
+        var d: Float32 = b00 * m[0][0] + b01 * m[1][0] + b02 * m[2][0]
+        
+        if d == 0.0	{
+            //singular matrix
+
+            dest.identity()
+            
+            return false
+        }
+        
+        d = 1.0 / d
+        
+        dest[0,0] = b00 * d
+        dest[0,1] = b01 * d
+        dest[0,2] = b02 * d
+        
+        dest[1,0] = b10 * d
+        dest[1,1] = b11 * d
+        dest[1,2] = b12 * d
+        
+        dest[2,0] = b20 * d
+        dest[2,1] = b21 * d
+        dest[2,2] = b22 * d
+        
+        return true;
+    }
 }
 
 func + (left: Matrix33, right: Matrix33) -> Matrix33 {
@@ -405,6 +606,49 @@ func - (left: Matrix33, right: Matrix33) -> Matrix33 {
     outMatrix[2,2] = left[2,2] - right[2,2]
     
     return outMatrix
+}
+
+func * (left: Matrix33, right: Float32) -> Matrix33 {
+    
+    var outMatrix = Matrix33()
+    
+    outMatrix[0,0] = left[0,0] * right
+    outMatrix[0,1] = left[0,1] * right
+    outMatrix[0,2] = left[0,2] * right
+    
+    outMatrix[1,0] = left[1,0] * right
+    outMatrix[1,1] = left[1,1] * right
+    outMatrix[1,2] = left[1,2] * right
+    
+    outMatrix[2,0] = left[2,0] * right
+    outMatrix[2,1] = left[2,1] * right
+    outMatrix[2,2] = left[2,2] * right
+    
+    return outMatrix
+}
+
+func * (left: Matrix33, right: Matrix33) -> Matrix33 {
+
+    var outMatrix = Matrix33()
+    
+    outMatrix.multiply(left, right: right)
+    
+    return outMatrix
+}
+
+func += (inout left: Matrix33, right: Matrix33) {
+    
+    left = left + right
+}
+
+func -= (inout left: Matrix33, right: Matrix33) {
+    
+    left = left - right
+}
+
+func *= (inout left: Matrix33, right: Matrix33) {
+    
+    left = left * right
 }
 
 
