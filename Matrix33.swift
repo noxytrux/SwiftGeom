@@ -573,6 +573,8 @@ extension Matrix33 {
     
     func getColumnMajor(inout rawMatrix: [Float32]) {
         
+        assert((rawMatrix.count == 9), "Error incompatibile matrix assigned")
+        
         rawMatrix[0] = m[0][0]
         rawMatrix[3] = m[0][1]
         rawMatrix[6] = m[0][2]
@@ -588,6 +590,8 @@ extension Matrix33 {
     
     func gerRowMajor(inout rawMatrix: [Float32]) {
     
+        assert((rawMatrix.count == 9), "Error incompatibile matrix assigned")
+        
         rawMatrix[0] = m[0][0]
         rawMatrix[1] = m[0][1]
         rawMatrix[2] = m[0][2]
@@ -603,6 +607,8 @@ extension Matrix33 {
     
     func getColumnMajorStride4(inout rawMatrix: [Float32]) {
     
+        assert((rawMatrix.count == 16), "Error incompatibile matrix assigned")
+        
         rawMatrix[0]  = m[0][0]
         rawMatrix[4]  = m[0][1]
         rawMatrix[8]  = m[0][2]
@@ -618,6 +624,8 @@ extension Matrix33 {
     
     func getRowMajorStride4(inout rawMatrix: [Float32]) {
     
+        assert((rawMatrix.count == 16), "Error incompatibile matrix assigned")
+        
         rawMatrix[0]  = m[0][0]
         rawMatrix[1]  = m[0][1]
         rawMatrix[2]  = m[0][2]
@@ -698,6 +706,15 @@ func * (left: Matrix33, right: Matrix33) -> Matrix33 {
     return outMatrix
 }
 
+func * (left: Matrix33, right: Vector3) -> Vector3 {
+
+    var dest = Vector3()
+    
+    left.multiply(right, dst: &dest)
+    
+    return dest
+}
+
 func += (inout left: Matrix33, right: Matrix33) {
     
     left = left + right
@@ -712,5 +729,6 @@ func *= (inout left: Matrix33, right: Matrix33) {
     
     left = left * right
 }
+
 
 

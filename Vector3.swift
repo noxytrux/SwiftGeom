@@ -45,6 +45,25 @@ class Vector3 {
 
 extension Vector3 : Equatable {
     
+    func get() -> [Float32] {
+    
+        var arr = [Float32]()
+       
+        arr += [x,y,z]
+        
+        return arr
+    }
+    
+    func isZero() -> Bool {
+        
+        if x != 0.0 || y != 0.0 || z != 0.0 {
+        
+            return false
+        }
+        
+        return true
+    }
+    
     func isFinite() -> Bool {
         
         return x.isFinite && y.isFinite && z.isFinite
