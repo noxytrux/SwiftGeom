@@ -20,11 +20,8 @@ Because Swift does not currently handles unions there is no way you can use simd
 
 ## TODO:
 
-* Matrix34 scaling
-* Matrix34 set matrix[16] column major
-* Matrix34 set matrix[16] row major
-* Matrix33 set matrix[9] columm major
-* Matrix33 set matrix[9] row major
+* Matrix34 multiply left transpose
+* Matrix34 multiply right transpose
 
 ## Examples:
 

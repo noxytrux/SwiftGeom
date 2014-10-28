@@ -608,7 +608,7 @@ extension Matrix33 {
         return true;
     }
     
-    //MARK: raw data
+    //MARK: raw data GET
     
     func getColumnMajor(inout rawMatrix: [Float32]) {
         
@@ -676,6 +676,76 @@ extension Matrix33 {
         rawMatrix[8]  = m[2][0]
         rawMatrix[9]  = m[2][1]
         rawMatrix[10] = m[2][2]
+    }
+    
+    //MARK: raw data SET
+    
+    func setColumnMajor(rawMatrix: [Float32]) {
+        
+        assert((rawMatrix.count == 9), "Error incompatibile matrix assigned")
+        
+        m[0][0] = rawMatrix[0]
+        m[0][1] = rawMatrix[3]
+        m[0][2] = rawMatrix[6]
+        
+        m[1][0] = rawMatrix[1]
+        m[1][1] = rawMatrix[4]
+        m[1][2] = rawMatrix[7]
+        
+        m[2][0] = rawMatrix[2]
+        m[2][1] = rawMatrix[5]
+        m[2][2] = rawMatrix[8]
+    }
+    
+    func setRowMajor(rawMatrix: [Float32]) {
+        
+        assert((rawMatrix.count == 9), "Error incompatibile matrix assigned")
+        
+        m[0][0] = rawMatrix[0]
+        m[0][1] = rawMatrix[1]
+        m[0][2] = rawMatrix[2]
+        
+        m[1][0] = rawMatrix[3]
+        m[1][1] = rawMatrix[4]
+        m[1][2] = rawMatrix[5]
+        
+        m[2][0] = rawMatrix[6]
+        m[2][1] = rawMatrix[7]
+        m[2][2] = rawMatrix[8]
+    }
+    
+    func setColumnMajorStride4(rawMatrix: [Float32]) {
+        
+        assert((rawMatrix.count == 16), "Error incompatibile matrix assigned")
+        
+        m[0][0] = rawMatrix[0]
+        m[0][1] = rawMatrix[4]
+        m[0][2] = rawMatrix[8]
+        
+        m[1][0] = rawMatrix[1]
+        m[1][1] = rawMatrix[5]
+        m[1][2] = rawMatrix[9]
+        
+        m[2][0] = rawMatrix[2]
+        m[2][1] = rawMatrix[6]
+        m[2][2] = rawMatrix[10]
+    }
+    
+    func setRowMajorStride4(rawMatrix: [Float32]) {
+        
+        assert((rawMatrix.count == 16), "Error incompatibile matrix assigned")
+        
+        m[0][0] = rawMatrix[0]
+        m[0][1] = rawMatrix[1]
+        m[0][2] = rawMatrix[2]
+            
+        m[1][0] = rawMatrix[4]
+        m[1][1] = rawMatrix[5]
+        m[1][2] = rawMatrix[6]
+        
+        m[2][0] = rawMatrix[8]
+        m[2][1] = rawMatrix[9]
+        m[2][2] = rawMatrix[10]
     }
 }
 

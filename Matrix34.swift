@@ -144,6 +144,8 @@ extension Matrix34 {
         M.multiply(left.M, right: right.M)
     }
     
+    //MARK: raw data GET
+    
     func getColumnMajor44(inout rawMatrix: [Float32]) {
     
         assert((rawMatrix.count == 16), "Error incompatibile matrix assigned")
@@ -173,13 +175,70 @@ extension Matrix34 {
         rawMatrix[14] = 0.0
         rawMatrix[15] = 1.0
     }
+    
+    //MARK: raw data SET
+    
+    func setColumnMajor44(rawMatrix: [Float32]) {
+        
+        assert((rawMatrix.count == 16), "Error incompatibile matrix assigned")
+        
+        M.setColumnMajorStride4(rawMatrix)
+        
+        t.x = rawMatrix[12]
+        t.y = rawMatrix[13]
+        t.z = rawMatrix[14]
+    }
+    
+    func setRowMajor44(rawMatrix: [Float32]) {
+    
+        assert((rawMatrix.count == 16), "Error incompatibile matrix assigned")
+        
+        M.setRowMajorStride4(rawMatrix)
+        
+        t.x = rawMatrix[3]
+        t.y = rawMatrix[7]
+        t.z = rawMatrix[11]
+    }
+    
 }
 
 func * (left: Matrix34, right: Matrix34) -> Matrix34 {
 
     var dest = Matrix34(initialize: false)
     dest.multiply(left,right: right)
+    
     return dest
 }
 
+func * (left: Matrix34, right: Float32) -> Matrix34 {
+    
+    var dest = Matrix34(initialize: false)
+    dest.t = left.t * right
+    dest.M = left.M * right
+    
+    return dest
+}
 
+func + (left: Matrix34, right: Matrix34) -> Matrix34 {
+
+    var dest = Matrix34(initialize: false)
+    dest.t = left.t+right.t
+    dest.M = left.M+right.M
+    
+    return dest
+}
+
+func *= (inout left: Matrix34, right: Matrix34) {
+
+    left = left * right
+}
+
+func *= (inout left: Matrix34, right: Float32) {
+    
+    left = left * right
+}
+
+func += (inout left: Matrix34, right: Matrix34) {
+    
+    left = left + right
+}
