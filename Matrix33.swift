@@ -14,7 +14,7 @@ class Matrix33 {
 
     internal var m: [[Float32]] = [[0,0,0],[0,0,0],[0,0,0]]
     
-    init() {
+    required init() {
     
         zero()
     }
@@ -60,6 +60,45 @@ class Matrix33 {
     func indexIsValid(row: Int, column: Int) -> Bool {
         
         return row >= 0 && row < maxLenght && column >= 0 && column < maxLenght
+    }
+}
+
+extension Matrix33: NSCopying {
+
+    func copyWithZone(zone: NSZone) -> AnyObject {
+        
+        let theCopy = self.dynamicType()
+        
+        theCopy.m = [[Float32]](self.m)
+        
+        return theCopy
+    }
+    
+    func copy() -> AnyObject! {
+        
+        if let asCopying = ((self as AnyObject) as? NSCopying) {
+            
+            return asCopying.copyWithZone(nil)
+        }
+        else {
+            
+            assert(false, "This class doesn't implement NSCopying")
+            return nil
+        }
+    }
+}
+
+extension Matrix33: Printable {
+    
+    //dispaly in column major (OpenGL like)
+
+    var description: String {
+        
+        var row0 = "\(m[0][0]),\(m[1][0]),\(m[2][0])"
+        var row1 = "\(m[0][1]),\(m[1][1]),\(m[2][1])"
+        var row2 = "\(m[0][2]),\(m[1][2]),\(m[2][2])"
+        
+        return "[\(row0),\n\(row1),\n\(row2)]"
     }
 }
 

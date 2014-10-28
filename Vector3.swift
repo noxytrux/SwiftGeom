@@ -14,7 +14,7 @@ class Vector3 {
     internal var y : Float32 = 0
     internal var z : Float32 = 0
     
-    init() {
+    required init() {
         
         x = 0
         y = 0
@@ -41,6 +41,38 @@ class Vector3 {
         y = other.y
         z = other.z
     }
+}
+
+extension Vector3: NSCopying {
+    
+    func copyWithZone(zone: NSZone) -> AnyObject {
+        
+        let theCopy = self.dynamicType()
+        
+        theCopy.x = self.x
+        theCopy.y = self.y
+        theCopy.z = self.z
+        
+        return theCopy
+    }
+    
+    func copy() -> AnyObject! {
+        
+        if let asCopying = ((self as AnyObject) as? NSCopying) {
+            
+            return asCopying.copyWithZone(nil)
+        }
+        else {
+            
+            assert(false, "This class doesn't implement NSCopying")
+            return nil
+        }
+    }
+}
+
+extension Vector3: Printable {
+    
+    var description: String { return "[\(x),\(y),\(z)]" }
 }
 
 extension Vector3 : Equatable {

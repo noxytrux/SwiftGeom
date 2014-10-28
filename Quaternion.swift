@@ -15,7 +15,7 @@ class Quaternion {
     internal var z : Float32 = 0
     internal var w : Float32 = 0
     
-    init() {
+    required init() {
         
         x = 0
         y = 0
@@ -59,6 +59,39 @@ class Quaternion {
     
         fromAngleAxis(angle, axis: axis)
     }
+}
+
+extension Quaternion: NSCopying {
+    
+    func copyWithZone(zone: NSZone) -> AnyObject {
+        
+        let theCopy = self.dynamicType()
+        
+        theCopy.x = self.x
+        theCopy.y = self.y
+        theCopy.z = self.z
+        theCopy.w = self.w
+        
+        return theCopy
+    }
+    
+    func copy() -> AnyObject! {
+        
+        if let asCopying = ((self as AnyObject) as? NSCopying) {
+            
+            return asCopying.copyWithZone(nil)
+        }
+        else {
+            
+            assert(false, "This class doesn't implement NSCopying")
+            return nil
+        }
+    }
+}
+
+extension Quaternion: Printable {
+    
+    var description: String { return "[\(x),\(y),\(z),\(w)]" }
 }
 
 extension Quaternion {

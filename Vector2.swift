@@ -13,7 +13,7 @@ class Vector2 {
     internal var x : Float32 = 0
     internal var y : Float32 = 0
     
-    init() {
+    required init() {
         
         x = 0
         y = 0
@@ -36,6 +36,37 @@ class Vector2 {
         x = other.x
         y = other.y
     }
+}
+
+extension Vector2: NSCopying {
+    
+    func copyWithZone(zone: NSZone) -> AnyObject {
+        
+        let theCopy = self.dynamicType()
+        
+        theCopy.x = self.x
+        theCopy.y = self.y
+        
+        return theCopy
+    }
+    
+    func copy() -> AnyObject! {
+        
+        if let asCopying = ((self as AnyObject) as? NSCopying) {
+            
+            return asCopying.copyWithZone(nil)
+        }
+        else {
+            
+            assert(false, "This class doesn't implement NSCopying")
+            return nil
+        }
+    }
+}
+
+extension Vector2: Printable {
+    
+    var description: String { return "[\(x),\(y)]" }
 }
 
 extension Vector2 : Equatable {

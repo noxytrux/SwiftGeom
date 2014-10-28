@@ -96,9 +96,9 @@ func matrix44MakeLookAt(eye: Vector3, center: Vector3, up: Vector3) -> [Float32]
     
     var v: Vector3 = n.cross(u)
 
-    var un = Vector3(other: u)
-    var vn = Vector3(other: v)
-    var nn = Vector3(other: n)
+    var un = u.copy() as Vector3
+    var vn = v.copy() as Vector3
+    var nn = n.copy() as Vector3
     
     un.setNegative()
     vn.setNegative()
