@@ -120,58 +120,50 @@ extension Matrix34 {
     
     //MARK: raw data GET
     
-    func getColumnMajor44(inout rawMatrix: [Float32]) {
+    func getColumnMajor44(inout rawMatrix: Matrix4x4) {
     
-        assert((rawMatrix.count == 16), "Error incompatibile matrix assigned")
-        
         M.getColumnMajorStride4(&rawMatrix)
         
-        rawMatrix[12] = t.x
-        rawMatrix[13] = t.y
-        rawMatrix[14] = t.z
-        rawMatrix[3]  = 0.0
-        rawMatrix[7]  = 0.0
-        rawMatrix[11] = 0.0
-        rawMatrix[15] = 1.0
+        rawMatrix.m13 = t.x
+        rawMatrix.m14 = t.y
+        rawMatrix.m15 = t.z
+        rawMatrix.m04 = 0.0
+        rawMatrix.m08 = 0.0
+        rawMatrix.m12 = 0.0
+        rawMatrix.m16 = 1.0
     }
     
-    func getRowMajor44(inout rawMatrix: [Float32]) {
+    func getRowMajor44(inout rawMatrix: Matrix4x4) {
         
-        assert((rawMatrix.count == 16), "Error incompatibile matrix assigned")
-    
         M.getRowMajorStride4(&rawMatrix)
         
-        rawMatrix[3] = t.x
-        rawMatrix[7] = t.y
-        rawMatrix[11] = t.z
-        rawMatrix[12] = 0.0
-        rawMatrix[13] = 0.0
-        rawMatrix[14] = 0.0
-        rawMatrix[15] = 1.0
+        rawMatrix.m04 = t.x
+        rawMatrix.m08 = t.y
+        rawMatrix.m12 = t.z
+        rawMatrix.m13 = 0.0
+        rawMatrix.m15 = 0.0
+        rawMatrix.m15 = 0.0
+        rawMatrix.m16 = 1.0
     }
     
     //MARK: raw data SET
     
-    mutating func setColumnMajor44(rawMatrix: [Float32]) {
-        
-        assert((rawMatrix.count == 16), "Error incompatibile matrix assigned")
+    mutating func setColumnMajor44(rawMatrix: Matrix4x4) {
         
         M.setColumnMajorStride4(rawMatrix)
         
-        t.x = rawMatrix[12]
-        t.y = rawMatrix[13]
-        t.z = rawMatrix[14]
+        t.x = rawMatrix.m13
+        t.y = rawMatrix.m14
+        t.z = rawMatrix.m15
     }
     
-    mutating func setRowMajor44(rawMatrix: [Float32]) {
+    mutating func setRowMajor44(rawMatrix: Matrix4x4) {
     
-        assert((rawMatrix.count == 16), "Error incompatibile matrix assigned")
-        
         M.setRowMajorStride4(rawMatrix)
         
-        t.x = rawMatrix[3]
-        t.y = rawMatrix[7]
-        t.z = rawMatrix[11]
+        t.x = rawMatrix.m04
+        t.y = rawMatrix.m08
+        t.z = rawMatrix.m12
     }
     
 }

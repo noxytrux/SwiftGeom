@@ -578,142 +578,126 @@ extension Matrix33 {
     
     //MARK: raw data GET
     
-    func getColumnMajor(inout rawMatrix: [Float32]) {
+    func getColumnMajor(inout rawMatrix: Matrix3x3) {
+    
+        rawMatrix.m01 = m[0][0]
+        rawMatrix.m04 = m[0][1]
+        rawMatrix.m07 = m[0][2]
         
-        assert((rawMatrix.count == 9), "Error incompatibile matrix assigned")
+        rawMatrix.m02 = m[1][0]
+        rawMatrix.m05 = m[1][1]
+        rawMatrix.m08 = m[1][2]
         
-        rawMatrix[0] = m[0][0]
-        rawMatrix[3] = m[0][1]
-        rawMatrix[6] = m[0][2]
-        
-        rawMatrix[1] = m[1][0]
-        rawMatrix[4] = m[1][1]
-        rawMatrix[7] = m[1][2]
-        
-        rawMatrix[2] = m[2][0]
-        rawMatrix[5] = m[2][1]
-        rawMatrix[8] = m[2][2]
+        rawMatrix.m03 = m[2][0]
+        rawMatrix.m06 = m[2][1]
+        rawMatrix.m09 = m[2][2]
     }
     
-    func gerRowMajor(inout rawMatrix: [Float32]) {
+    func gerRowMajor(inout rawMatrix: Matrix3x3) {
     
-        assert((rawMatrix.count == 9), "Error incompatibile matrix assigned")
+        rawMatrix.m01 = m[0][0]
+        rawMatrix.m02 = m[0][1]
+        rawMatrix.m03 = m[0][2]
         
-        rawMatrix[0] = m[0][0]
-        rawMatrix[1] = m[0][1]
-        rawMatrix[2] = m[0][2]
+        rawMatrix.m04 = m[1][0]
+        rawMatrix.m05 = m[1][1]
+        rawMatrix.m06 = m[1][2]
         
-        rawMatrix[3] = m[1][0]
-        rawMatrix[4] = m[1][1]
-        rawMatrix[5] = m[1][2]
-        
-        rawMatrix[6] = m[2][0]
-        rawMatrix[7] = m[2][1]
-        rawMatrix[8] = m[2][2]
+        rawMatrix.m07 = m[2][0]
+        rawMatrix.m08 = m[2][1]
+        rawMatrix.m09 = m[2][2]
     }
     
-    func getColumnMajorStride4(inout rawMatrix: [Float32]) {
-    
-        assert((rawMatrix.count == 16), "Error incompatibile matrix assigned")
+    func getColumnMajorStride4(inout rawMatrix: Matrix4x4) {
+
+        rawMatrix.m01 = m[0][0]
+        rawMatrix.m05 = m[0][1]
+        rawMatrix.m09 = m[0][2]
         
-        rawMatrix[0]  = m[0][0]
-        rawMatrix[4]  = m[0][1]
-        rawMatrix[8]  = m[0][2]
+        rawMatrix.m02 = m[1][0]
+        rawMatrix.m06 = m[1][1]
+        rawMatrix.m10 = m[1][2]
         
-        rawMatrix[1]  = m[1][0]
-        rawMatrix[5]  = m[1][1]
-        rawMatrix[9]  = m[1][2]
-        
-        rawMatrix[2]  = m[2][0]
-        rawMatrix[6]  = m[2][1]
-        rawMatrix[10] = m[2][2]
+        rawMatrix.m03 = m[2][0]
+        rawMatrix.m07 = m[2][1]
+        rawMatrix.m11 = m[2][2]
     }
     
-    func getRowMajorStride4(inout rawMatrix: [Float32]) {
+    func getRowMajorStride4(inout rawMatrix: Matrix4x4) {
     
-        assert((rawMatrix.count == 16), "Error incompatibile matrix assigned")
+        rawMatrix.m01 = m[0][0]
+        rawMatrix.m02 = m[0][1]
+        rawMatrix.m03 = m[0][2]
         
-        rawMatrix[0]  = m[0][0]
-        rawMatrix[1]  = m[0][1]
-        rawMatrix[2]  = m[0][2]
+        rawMatrix.m05 = m[1][0]
+        rawMatrix.m06 = m[1][1]
+        rawMatrix.m07 = m[1][2]
         
-        rawMatrix[4]  = m[1][0]
-        rawMatrix[5]  = m[1][1]
-        rawMatrix[6]  = m[1][2]
-        
-        rawMatrix[8]  = m[2][0]
-        rawMatrix[9]  = m[2][1]
-        rawMatrix[10] = m[2][2]
+        rawMatrix.m09 = m[2][0]
+        rawMatrix.m10 = m[2][1]
+        rawMatrix.m11 = m[2][2]
     }
     
     //MARK: raw data SET
     
-    mutating func setColumnMajor(rawMatrix: [Float32]) {
+    mutating func setColumnMajor(rawMatrix: Matrix3x3]) {
         
-        assert((rawMatrix.count == 9), "Error incompatibile matrix assigned")
+        m[0][0] = rawMatrix.m01
+        m[0][1] = rawMatrix.m04
+        m[0][2] = rawMatrix.m07
         
-        m[0][0] = rawMatrix[0]
-        m[0][1] = rawMatrix[3]
-        m[0][2] = rawMatrix[6]
+        m[1][0] = rawMatrix.m02
+        m[1][1] = rawMatrix.m05
+        m[1][2] = rawMatrix.m08
         
-        m[1][0] = rawMatrix[1]
-        m[1][1] = rawMatrix[4]
-        m[1][2] = rawMatrix[7]
-        
-        m[2][0] = rawMatrix[2]
-        m[2][1] = rawMatrix[5]
-        m[2][2] = rawMatrix[8]
+        m[2][0] = rawMatrix.m03
+        m[2][1] = rawMatrix.m06
+        m[2][2] = rawMatrix.m09
     }
     
-    mutating func setRowMajor(rawMatrix: [Float32]) {
+    mutating func setRowMajor(rawMatrix: Matrix3x3) {
         
-        assert((rawMatrix.count == 9), "Error incompatibile matrix assigned")
+        m[0][0] = rawMatrix.m01
+        m[0][1] = rawMatrix.m02
+        m[0][2] = rawMatrix.m03
         
-        m[0][0] = rawMatrix[0]
-        m[0][1] = rawMatrix[1]
-        m[0][2] = rawMatrix[2]
+        m[1][0] = rawMatrix.m04
+        m[1][1] = rawMatrix.m05
+        m[1][2] = rawMatrix.m06
         
-        m[1][0] = rawMatrix[3]
-        m[1][1] = rawMatrix[4]
-        m[1][2] = rawMatrix[5]
-        
-        m[2][0] = rawMatrix[6]
-        m[2][1] = rawMatrix[7]
-        m[2][2] = rawMatrix[8]
+        m[2][0] = rawMatrix.m07
+        m[2][1] = rawMatrix.m08
+        m[2][2] = rawMatrix.m09
     }
     
-    mutating func setColumnMajorStride4(rawMatrix: [Float32]) {
+    mutating func setColumnMajorStride4(rawMatrix: Matrix4x4) {
         
-        assert((rawMatrix.count == 16), "Error incompatibile matrix assigned")
+        m[0][0] = rawMatrix.m01
+        m[0][1] = rawMatrix.m05
+        m[0][2] = rawMatrix.m09
         
-        m[0][0] = rawMatrix[0]
-        m[0][1] = rawMatrix[4]
-        m[0][2] = rawMatrix[8]
+        m[1][0] = rawMatrix.m02
+        m[1][1] = rawMatrix.m06
+        m[1][2] = rawMatrix.m10
         
-        m[1][0] = rawMatrix[1]
-        m[1][1] = rawMatrix[5]
-        m[1][2] = rawMatrix[9]
-        
-        m[2][0] = rawMatrix[2]
-        m[2][1] = rawMatrix[6]
-        m[2][2] = rawMatrix[10]
+        m[2][0] = rawMatrix.m03
+        m[2][1] = rawMatrix.m07
+        m[2][2] = rawMatrix.m11
     }
     
-    mutating func setRowMajorStride4(rawMatrix: [Float32]) {
+    mutating func setRowMajorStride4(rawMatrix: Matrix4x4) {
         
-        assert((rawMatrix.count == 16), "Error incompatibile matrix assigned")
+        m[0][0] = rawMatrix.m01
+        m[0][1] = rawMatrix.m02
+        m[0][2] = rawMatrix.m03
         
-        m[0][0] = rawMatrix[0]
-        m[0][1] = rawMatrix[1]
-        m[0][2] = rawMatrix[2]
-            
-        m[1][0] = rawMatrix[4]
-        m[1][1] = rawMatrix[5]
-        m[1][2] = rawMatrix[6]
+        m[1][0] = rawMatrix.m05
+        m[1][1] = rawMatrix.m06
+        m[1][2] = rawMatrix.m07
         
-        m[2][0] = rawMatrix[8]
-        m[2][1] = rawMatrix[9]
-        m[2][2] = rawMatrix[10]
+        m[2][0] = rawMatrix.m09
+        m[2][1] = rawMatrix.m10
+        m[2][2] = rawMatrix.m11
     }
 }
 

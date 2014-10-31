@@ -26,7 +26,73 @@ func swapValues<T>(inout a: T, inout b: T) {
     b = temp
 }
 
-func matrix44MakePerspective(fovyRadians: Float32, aspect: Float32, nearZ: Float32, farZ: Float32) -> [Float32] {
+struct Matrix4x4 {
+    
+    var m01:Float32 = 0
+    var m02:Float32 = 0
+    var m03:Float32 = 0
+    var m04:Float32 = 0
+    var m05:Float32 = 0
+    var m06:Float32 = 0
+    var m07:Float32 = 0
+    var m08:Float32 = 0
+    var m09:Float32 = 0
+    var m10:Float32 = 0
+    var m11:Float32 = 0
+    var m12:Float32 = 0
+    var m13:Float32 = 0
+    var m14:Float32 = 0
+    var m15:Float32 = 0
+    var m16:Float32 = 0
+}
+
+struct Matrix3x3 {
+
+    var m01:Float32 = 0
+    var m02:Float32 = 0
+    var m03:Float32 = 0
+    var m04:Float32 = 0
+    var m05:Float32 = 0
+    var m06:Float32 = 0
+    var m07:Float32 = 0
+    var m08:Float32 = 0
+    var m09:Float32 = 0
+}
+
+func copyMatrix44(src: [Float32], inout dst: Matrix4x4) {
+
+    dst.m01 = src[0]
+    dst.m02 = src[1]
+    dst.m03 = src[2]
+    dst.m04 = src[3]
+    dst.m05 = src[4]
+    dst.m06 = src[5]
+    dst.m07 = src[6]
+    dst.m08 = src[7]
+    dst.m09 = src[8]
+    dst.m10 = src[9]
+    dst.m11 = src[10]
+    dst.m12 = src[11]
+    dst.m13 = src[12]
+    dst.m14 = src[13]
+    dst.m15 = src[14]
+    dst.m16 = src[15]
+}
+
+func copyMatrix33(src: [Float32], inout dst: Matrix3x3) {
+    
+    dst.m01 = src[0]
+    dst.m02 = src[1]
+    dst.m03 = src[2]
+    dst.m04 = src[3]
+    dst.m05 = src[4]
+    dst.m06 = src[5]
+    dst.m07 = src[6]
+    dst.m08 = src[7]
+    dst.m09 = src[8]
+}
+
+func matrix44MakePerspective(fovyRadians: Float32, aspect: Float32, nearZ: Float32, farZ: Float32) -> Matrix4x4 {
 
     var cotan: Float32 = 1.0 / tanf(fovyRadians / 2.0);
     
@@ -35,10 +101,14 @@ func matrix44MakePerspective(fovyRadians: Float32, aspect: Float32, nearZ: Float
               0.0, 0.0, (farZ + nearZ) / (nearZ - farZ), -1.0,
               0.0, 0.0, (2.0 * farZ * nearZ) / (nearZ - farZ), 0.0]
     
-    return m
+    //TODO: make it direct assing lazy bastard
+    var outMat = Matrix4x4()
+    copyMatrix44(m, &outMat)
+    
+    return outMat
 }
 
-func matrix44MakeFrustum(left: Float32, right: Float32, bottom: Float32, top: Float32, nearZ: Float32, farZ: Float32) -> [Float32] {
+func matrix44MakeFrustum(left: Float32, right: Float32, bottom: Float32, top: Float32, nearZ: Float32, farZ: Float32) -> Matrix4x4 {
 
     let ral = right + left;
     let rsl = right - left;
@@ -60,10 +130,14 @@ func matrix44MakeFrustum(left: Float32, right: Float32, bottom: Float32, top: Fl
                c,  d,  e, -1.0,
               0.0, 0.0, f, 0.0]
     
-    return m
+    //TODO: make it direct assing lazy bastard
+    var outMat = Matrix4x4()
+    copyMatrix44(m, &outMat)
+    
+    return outMat
 }
 
-func matrix44MakeOrtho(left: Float32, right: Float32, bottom: Float32, top: Float32, nearZ: Float32, farZ: Float32) -> [Float32] {
+func matrix44MakeOrtho(left: Float32, right: Float32, bottom: Float32, top: Float32, nearZ: Float32, farZ: Float32) -> Matrix4x4 {
     
     let ral = right + left;
     let rsl = right - left;
@@ -77,10 +151,14 @@ func matrix44MakeOrtho(left: Float32, right: Float32, bottom: Float32, top: Floa
               0.0, 0.0, -2.0 / fsn, 0.0,
               -ral / rsl, -tab / tsb, -fan / fsn, 1.0]
     
-    return m
+    //TODO: make it direct assing lazy bastard
+    var outMat = Matrix4x4()
+    copyMatrix44(m, &outMat)
+    
+    return outMat
 }
 
-func matrix44MakeLookAt(eye: Vector3, center: Vector3, up: Vector3) -> [Float32]{
+func matrix44MakeLookAt(eye: Vector3, center: Vector3, up: Vector3) -> Matrix4x4{
  
     var ev = Vector3(other: eye)
     var cv = Vector3(other: center)
@@ -109,6 +187,10 @@ func matrix44MakeLookAt(eye: Vector3, center: Vector3, up: Vector3) -> [Float32]
              u.z, v.z, n.z, 0.0,
              un.dot(ev), vn.dot(ev), nn.dot(ev), 1.0]
     
-    return m
+    //TODO: make it direct assing lazy bastard
+    var outMat = Matrix4x4()
+    copyMatrix44(m, &outMat)
+    
+    return outMat
 }
 
