@@ -8,13 +8,13 @@
 
 import UIKit
 
-class Matrix33 {
+struct Matrix33 {
 
     private let maxLenght = 3
 
-    internal var m: [[Float32]] = [[0,0,0],[0,0,0],[0,0,0]]
+    var m: [[Float32]] = [[0,0,0],[0,0,0],[0,0,0]]
     
-    required init() {
+    init() {
     
         zero()
     }
@@ -63,31 +63,6 @@ class Matrix33 {
     }
 }
 
-extension Matrix33: NSCopying {
-
-    func copyWithZone(zone: NSZone) -> AnyObject {
-        
-        let theCopy = self.dynamicType()
-        
-        theCopy.m = [[Float32]](self.m)
-        
-        return theCopy
-    }
-    
-    func copy() -> AnyObject! {
-        
-        if let asCopying = ((self as AnyObject) as? NSCopying) {
-            
-            return asCopying.copyWithZone(nil)
-        }
-        else {
-            
-            assert(false, "This class doesn't implement NSCopying")
-            return nil
-        }
-    }
-}
-
 extension Matrix33: Printable {
     
     //dispaly in column major (OpenGL like)
@@ -109,7 +84,7 @@ extension Matrix33 {
         return  m[0][0].isFinite && m[0][1].isFinite && m[0][2].isFinite && m[1][0].isFinite && m[1][1].isFinite && m[1][2].isFinite && m[2][0].isFinite && m[2][1].isFinite && m[2][2].isFinite
     }
     
-    func fromQuat(q: Quaternion) {
+    mutating func fromQuat(q: Quaternion) {
         
         let w = q.w;
         let x = q.x;
@@ -195,14 +170,14 @@ extension Matrix33 {
         }
     }
     
-    func setColumn(col:Int, v:Vector3) {
+    mutating  func setColumn(col:Int, v:Vector3) {
 
         self[0,col] = v.x
         self[1,col] = v.y
         self[2,col] = v.z
     }
     
-    func setRow(row:Int, v:Vector3) {
+    mutating  func setRow(row:Int, v:Vector3) {
     
         self[row,0] = v.x
         self[row,1] = v.y
@@ -240,7 +215,7 @@ extension Matrix33 {
         return true;
     }
 
-    func zero() {
+    mutating func zero() {
     
         m[0][0] = 0
         m[0][1] = 0
@@ -255,7 +230,7 @@ extension Matrix33 {
         m[2][2] = 0
     }
     
-    func identity() {
+    mutating func identity() {
         
         m[0][0] = 1
         m[0][1] = 0
@@ -270,7 +245,7 @@ extension Matrix33 {
         m[2][2] = 1
     }
     
-    func negative() {
+    mutating func negative() {
     
         m[0][0] = -m[0][0]
         m[0][1] = -m[0][1]
@@ -285,7 +260,7 @@ extension Matrix33 {
         m[2][2] = -m[2][2]
     }
     
-    func diagonal(v: Vector3) {
+    mutating func diagonal(v: Vector3) {
      
         m[0][0] = v.x
         m[0][1] = 0
@@ -300,7 +275,7 @@ extension Matrix33 {
         m[2][2] = v.z
     }
     
-    func star(v: Vector3) {
+    mutating func star(v: Vector3) {
      
         m[0][0] =  0.0
         m[0][1] = -v.z
@@ -315,36 +290,29 @@ extension Matrix33 {
         m[2][2] =  0.0
     }
     
-    func setTransposed(inout other: Matrix33) {
+    mutating func setTransposed(other: Matrix33) {
     
-        if self === other {
-
-            setTransposed()
-        }
-        else {
+        self[0,0] = other[0,0]
+        self[0,1] = other[1,0]
+        self[0,2] = other[2,0]
         
-            self[0,0] = other[0,0]
-            self[0,1] = other[1,0]
-            self[0,2] = other[2,0]
-            
-            self[1,0] = other[0,1]
-            self[1,1] = other[1,1]
-            self[1,2] = other[2,1]
-            
-            self[2,0] = other[0,2]
-            self[2,1] = other[1,2]
-            self[2,2] = other[2,2]
-        }
+        self[1,0] = other[0,1]
+        self[1,1] = other[1,1]
+        self[1,2] = other[2,1]
+        
+        self[2,0] = other[0,2]
+        self[2,1] = other[1,2]
+        self[2,2] = other[2,2]
     }
     
-    func setTransposed() {
+    mutating func setTransposed() {
     
         swapValues(&self[0,1], &self[1,0])
         swapValues(&self[1,2], &self[2,1])
         swapValues(&self[0,2], &self[2,0])
     }
     
-    func multiplyDiagonal(v: Vector3) {
+    mutating func multiplyDiagonal(v: Vector3) {
     
         m[0][0] *=  v.x
         m[0][1] *=  v.y
@@ -359,7 +327,7 @@ extension Matrix33 {
         m[2][2] *=  v.z
     }
     
-    func multiplyDiagonalTranspose(d: Vector3) {
+    mutating func multiplyDiagonalTranspose(d: Vector3) {
     
         var temp: Float32 = 0
 
@@ -410,7 +378,7 @@ extension Matrix33 {
     
     //MARK: matrix multiply
     
-    func multiply(left: Matrix33, right: Matrix33) {
+    mutating func multiply(left: Matrix33, right: Matrix33) {
     
         var a:Float32,b:Float32,c:Float32,d:Float32,e:Float32,f:Float32,g:Float32,h:Float32,i:Float32
         
@@ -439,7 +407,7 @@ extension Matrix33 {
         m[2][2] = i
     }
     
-    func multiplyTransposeLeft(left: Matrix33, right: Matrix33) {
+    mutating func multiplyTransposeLeft(left: Matrix33, right: Matrix33) {
     
         var a:Float32,b:Float32,c:Float32,d:Float32,e:Float32,f:Float32,g:Float32,h:Float32,i:Float32
         
@@ -468,7 +436,7 @@ extension Matrix33 {
         m[2][2] = i
     }
     
-    func multiplyTransposeRight(left: Matrix33, right: Matrix33) {
+    mutating func multiplyTransposeRight(left: Matrix33, right: Matrix33) {
         
         var a:Float32,b:Float32,c:Float32,d:Float32,e:Float32,f:Float32,g:Float32,h:Float32,i:Float32
         
@@ -497,7 +465,7 @@ extension Matrix33 {
         m[2][2] = i
     }
     
-    func multiplyTransposeRight(left: Vector3, right: Vector3) {
+    mutating func multiplyTransposeRight(left: Vector3, right: Vector3) {
         
         m[0][0] = left.x * right.x
         m[0][1] = left.x * right.y
@@ -514,7 +482,7 @@ extension Matrix33 {
     
     //MARK: rotation
     
-    func rotX(angle: Float32) {
+    mutating func rotX(angle: Float32) {
     
         var Cos: Float32 = cosf(angle)
         var Sin: Float32 = sinf(angle)
@@ -527,7 +495,7 @@ extension Matrix33 {
         m[2][1] = Sin
     }
     
-    func rotY(angle: Float32) {
+    mutating func rotY(angle: Float32) {
         
         var Cos: Float32 = cosf(angle)
         var Sin: Float32 = sinf(angle)
@@ -540,7 +508,7 @@ extension Matrix33 {
         m[2][0] = -Sin
     }
     
-    func rotZ(angle: Float32) {
+    mutating func rotZ(angle: Float32) {
         
         var Cos: Float32 = cosf(angle)
         var Sin: Float32 = sinf(angle)
@@ -680,7 +648,7 @@ extension Matrix33 {
     
     //MARK: raw data SET
     
-    func setColumnMajor(rawMatrix: [Float32]) {
+    mutating func setColumnMajor(rawMatrix: [Float32]) {
         
         assert((rawMatrix.count == 9), "Error incompatibile matrix assigned")
         
@@ -697,7 +665,7 @@ extension Matrix33 {
         m[2][2] = rawMatrix[8]
     }
     
-    func setRowMajor(rawMatrix: [Float32]) {
+    mutating func setRowMajor(rawMatrix: [Float32]) {
         
         assert((rawMatrix.count == 9), "Error incompatibile matrix assigned")
         
@@ -714,7 +682,7 @@ extension Matrix33 {
         m[2][2] = rawMatrix[8]
     }
     
-    func setColumnMajorStride4(rawMatrix: [Float32]) {
+    mutating func setColumnMajorStride4(rawMatrix: [Float32]) {
         
         assert((rawMatrix.count == 16), "Error incompatibile matrix assigned")
         
@@ -731,7 +699,7 @@ extension Matrix33 {
         m[2][2] = rawMatrix[10]
     }
     
-    func setRowMajorStride4(rawMatrix: [Float32]) {
+    mutating func setRowMajorStride4(rawMatrix: [Float32]) {
         
         assert((rawMatrix.count == 16), "Error incompatibile matrix assigned")
         

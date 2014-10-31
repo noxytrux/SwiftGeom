@@ -8,17 +8,17 @@
 
 import UIKit
 
-class Vector3 {
+struct Vector3 {
     
-    internal var x : Float32 = 0
-    internal var y : Float32 = 0
-    internal var z : Float32 = 0
+    var x : Float32 = 0.0
+    var y : Float32 = 0.0
+    var z : Float32 = 0.0
     
-    required init() {
+    init() {
         
-        x = 0
-        y = 0
-        z = 0
+        x = 0.0
+        y = 0.0
+        z = 0.0
     }
     
     init(value: Float32) {
@@ -40,33 +40,6 @@ class Vector3 {
         x = other.x
         y = other.y
         z = other.z
-    }
-}
-
-extension Vector3: NSCopying {
-    
-    func copyWithZone(zone: NSZone) -> AnyObject {
-        
-        let theCopy = self.dynamicType()
-        
-        theCopy.x = self.x
-        theCopy.y = self.y
-        theCopy.z = self.z
-        
-        return theCopy
-    }
-    
-    func copy() -> AnyObject! {
-        
-        if let asCopying = ((self as AnyObject) as? NSCopying) {
-            
-            return asCopying.copyWithZone(nil)
-        }
-        else {
-            
-            assert(false, "This class doesn't implement NSCopying")
-            return nil
-        }
     }
 }
 
@@ -113,7 +86,7 @@ extension Vector3 : Equatable {
         return result.dot(result)
     }
 
-    func normalize() {
+    mutating func normalize() {
         
         let m = magnitude()
         
@@ -127,7 +100,7 @@ extension Vector3 : Equatable {
         }
     }
     
-    func setMagnitude(lenght: Float32) {
+    mutating func setMagnitude(lenght: Float32) {
     
         let m = magnitude()
         
@@ -156,7 +129,7 @@ extension Vector3 : Equatable {
         return x * v.x + y * v.y + z * v.z
     }
     
-    func lerp(a: Vector3, b: Vector3, coef: Float32) {
+    mutating func lerp(a: Vector3, b: Vector3, coef: Float32) {
         
         let result = a + ( b - a) * coef
         
@@ -165,7 +138,7 @@ extension Vector3 : Equatable {
         z = result.z
     }
     
-    func cross(left: Vector3, right: Vector3) {
+    mutating func cross(left: Vector3, right: Vector3) {
     
         var a = (left.y * right.z) - (left.z * right.y);
         var b = (left.z * right.x) - (left.x * right.z);
@@ -184,42 +157,42 @@ extension Vector3 : Equatable {
         return temp
     }
     
-    func zero() {
+    mutating func zero() {
     
         x = 0
         y = 0
         z = 0
     }
     
-    func set(other: Vector3) {
+    mutating func set(other: Vector3) {
 
         x = other.x
         y = other.y
         z = other.z
     }
     
-    func setNegative(other: Vector3) {
+    mutating func setNegative(other: Vector3) {
     
         x = -other.x
         y = -other.y
         z = -other.z
     }
     
-    func setNegative() {
+    mutating func setNegative() {
         
         x = -x
         y = -y
         z = -z
     }
     
-    func min(other: Vector3) {
+    mutating func min(other: Vector3) {
     
         x = fminf(x, other.x)
         y = fminf(y, other.y)
         z = fminf(z, other.z)
     }
 
-    func max(other: Vector3) {
+    mutating func max(other: Vector3) {
         
         x = fmaxf(x, other.x)
         y = fmaxf(y, other.y)

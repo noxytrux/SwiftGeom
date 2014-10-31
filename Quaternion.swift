@@ -8,15 +8,14 @@
 
 import UIKit
 
-class Quaternion {
+struct Quaternion {
     
-    internal var x : Float32 = 0
-    internal var y : Float32 = 0
-    internal var z : Float32 = 0
-    internal var w : Float32 = 0
+    var x : Float32 = 0
+    var y : Float32 = 0
+    var z : Float32 = 0
+    var w : Float32 = 0
     
-    required init() {
-        
+    init() {
         x = 0
         y = 0
         z = 0
@@ -61,34 +60,6 @@ class Quaternion {
     }
 }
 
-extension Quaternion: NSCopying {
-    
-    func copyWithZone(zone: NSZone) -> AnyObject {
-        
-        let theCopy = self.dynamicType()
-        
-        theCopy.x = self.x
-        theCopy.y = self.y
-        theCopy.z = self.z
-        theCopy.w = self.w
-        
-        return theCopy
-    }
-    
-    func copy() -> AnyObject! {
-        
-        if let asCopying = ((self as AnyObject) as? NSCopying) {
-            
-            return asCopying.copyWithZone(nil)
-        }
-        else {
-            
-            assert(false, "This class doesn't implement NSCopying")
-            return nil
-        }
-    }
-}
-
 extension Quaternion: Printable {
     
     var description: String { return "[\(x),\(y),\(z),\(w)]" }
@@ -101,7 +72,7 @@ extension Quaternion {
         return x.isFinite && y.isFinite && z.isFinite && w.isFinite
     }
     
-    func fromAngleAxis(angle: Float32, axis: Vector3 ) {
+    mutating func fromAngleAxis(angle: Float32, axis: Vector3 ) {
     
         x = axis.x;
         y = axis.y;
@@ -124,14 +95,14 @@ extension Quaternion {
         z = z * sin_theta_over_two;
     }
     
-    func invert() {
+    mutating func invert() {
     
         x = -x
         y = -y
         z = -z
     }
     
-    func negate() {
+    mutating func negate() {
     
         x = -x
         y = -y
@@ -139,7 +110,7 @@ extension Quaternion {
         w = -w
     }
     
-    func zero() {
+    mutating func zero() {
     
         x = 0
         y = 0
@@ -177,7 +148,7 @@ extension Quaternion {
         return x * v.x + y * v.y + z * v.z  + w * v.w;
     }
 
-    func normalize() {
+    mutating func normalize() {
         
         let mag = magnitude();
     
@@ -192,14 +163,14 @@ extension Quaternion {
         }
     }
 
-    func conjugate() {
+    mutating func conjugate() {
         
         x = -x;
         y = -y;
         z = -z;
     }
     
-    func set(other: Quaternion) {
+    mutating func set(other: Quaternion) {
         
         x = other.x
         y = other.y
@@ -207,7 +178,7 @@ extension Quaternion {
         w = other.w
     }
     
-    func slerp(t:Float32, left:Quaternion, right:Quaternion) {
+    mutating func slerp(t:Float32, left:Quaternion, right:Quaternion) {
     
         let quatEpsilon: Float32 = 1.0e-8
         
@@ -248,9 +219,9 @@ extension Quaternion {
 
     }
     
-    func rotate(inout v: Vector3) {
+    mutating func rotate(inout v: Vector3) {
    
-        let myInverse = Quaternion()
+        var myInverse = Quaternion()
         
         myInverse.x = -x
         myInverse.y = -y
@@ -268,7 +239,7 @@ extension Quaternion {
     
     func inverseRotate(inout v: Vector3) {
     
-        let myInverse = Quaternion()
+        var myInverse = Quaternion()
         
         myInverse.x = -x;
         myInverse.y = -y;

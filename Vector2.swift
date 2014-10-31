@@ -8,15 +8,15 @@
 
 import UIKit
 
-class Vector2 {
+struct Vector2 {
     
-    internal var x : Float32 = 0
-    internal var y : Float32 = 0
+    var x : Float32 = 0.0
+    var y : Float32 = 0.0
     
-    required init() {
+    init() {
         
-        x = 0
-        y = 0
+        x = 0.0
+        y = 0.0
     }
     
     init(value: Float32) {
@@ -38,32 +38,6 @@ class Vector2 {
     }
 }
 
-extension Vector2: NSCopying {
-    
-    func copyWithZone(zone: NSZone) -> AnyObject {
-        
-        let theCopy = self.dynamicType()
-        
-        theCopy.x = self.x
-        theCopy.y = self.y
-        
-        return theCopy
-    }
-    
-    func copy() -> AnyObject! {
-        
-        if let asCopying = ((self as AnyObject) as? NSCopying) {
-            
-            return asCopying.copyWithZone(nil)
-        }
-        else {
-            
-            assert(false, "This class doesn't implement NSCopying")
-            return nil
-        }
-    }
-}
-
 extension Vector2: Printable {
     
     var description: String { return "[\(x),\(y)]" }
@@ -82,13 +56,13 @@ extension Vector2 : Equatable {
         return sqrt( result.dot(result) )
     }
     
-    func normalize() {
+    mutating func normalize() {
         
         let m = magnitude()
         
         if m > 0 {
             
-            let il = 1.0 / m
+            let il:Float32 = 1.0 / m
             
             x *= il
             y *= il
@@ -105,7 +79,7 @@ extension Vector2 : Equatable {
         return x * v.x + y * v.y
     }
     
-    func lerp( a: Vector2, b: Vector2, coef : Float32) {
+    mutating func lerp( a: Vector2, b: Vector2, coef : Float32) {
         
         let result = a + ( b - a) * coef
         

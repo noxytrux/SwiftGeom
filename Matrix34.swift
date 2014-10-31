@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Matrix34 {
+struct Matrix34 {
 
     var M: Matrix33 = Matrix33()
     var t: Vector3 = Vector3()
@@ -19,38 +19,12 @@ class Matrix34 {
         t = Vector3(other: trans)
     }
     
-    required init(initialize: Bool) {
+    init(initialize: Bool) {
 
         if initialize {
         
             M.identity()
             t.zero()
-        }
-    }
-}
-
-extension Matrix34: NSCopying {
-    
-    func copyWithZone(zone: NSZone) -> AnyObject {
-        
-        let theCopy = self.dynamicType(initialize: false)
-        
-        theCopy.M = Matrix33(other: self.M)
-        theCopy.t = Vector3(other: self.t)
-        
-        return theCopy
-    }
-    
-    func copy() -> AnyObject! {
-        
-        if let asCopying = ((self as AnyObject) as? NSCopying) {
-            
-            return asCopying.copyWithZone(nil)
-        }
-        else {
-            
-            assert(false, "This class doesn't implement NSCopying")
-            return nil
         }
     }
 }
@@ -71,13 +45,13 @@ extension Matrix34: Printable {
 
 extension Matrix34 {
 
-    func zero() {
+    mutating func zero() {
     
         M.zero()
         t.zero()
     }
     
-    func identity() {
+    mutating func identity() {
     
         M.identity()
         t.zero()
@@ -122,7 +96,7 @@ extension Matrix34 {
     
     func getInverseRT(inout dest: Matrix34) -> Bool {
     
-        dest.M.setTransposed(&M)
+        dest.M.setTransposed(M)
         dest.M.multiply(t * -1.0, dst: &dest.t)
 
         return true
@@ -138,7 +112,7 @@ extension Matrix34 {
         M.multiplyByTranspose(src - t, dst: &dst)
     }
     
-    func multiply(left: Matrix34, right: Matrix34) {
+    mutating func multiply(left: Matrix34, right: Matrix34) {
     
         t = left.M * right.t + left.t
         M.multiply(left.M, right: right.M)
@@ -178,7 +152,7 @@ extension Matrix34 {
     
     //MARK: raw data SET
     
-    func setColumnMajor44(rawMatrix: [Float32]) {
+    mutating func setColumnMajor44(rawMatrix: [Float32]) {
         
         assert((rawMatrix.count == 16), "Error incompatibile matrix assigned")
         
@@ -189,7 +163,7 @@ extension Matrix34 {
         t.z = rawMatrix[14]
     }
     
-    func setRowMajor44(rawMatrix: [Float32]) {
+    mutating func setRowMajor44(rawMatrix: [Float32]) {
     
         assert((rawMatrix.count == 16), "Error incompatibile matrix assigned")
         

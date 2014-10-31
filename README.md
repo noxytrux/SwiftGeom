@@ -63,9 +63,9 @@ Because Swift does not currently handles unions there is no way you can use simd
     
   var v: Vector3 = n.cross(u)
 
-  var un = u.copy() as Vector3
-  var vn = v.copy() as Vector3
-  var nn = n.copy() as Vector3
+  var un = Vector3(other: u)
+  var vn = Vector3(other: v)
+  var nn = Vector3(other: n)
     
   un.setNegative()
   vn.setNegative()
@@ -131,7 +131,7 @@ Because Swift does not currently handles unions there is no way you can use simd
         
   if modelView.M.getInverse(&inverted) == true {
         
-    inverted.setTransposed(&normalMatrix)
+    normalMatrix.setTransposed(inverted)
   }
 ```
 
