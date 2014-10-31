@@ -640,7 +640,7 @@ extension Matrix33 {
     
     //MARK: raw data SET
     
-    mutating func setColumnMajor(rawMatrix: Matrix3x3]) {
+    mutating func setColumnMajor(rawMatrix: Matrix3x3) {
         
         m[0][0] = rawMatrix.m01
         m[0][1] = rawMatrix.m04
