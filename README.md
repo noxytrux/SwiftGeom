@@ -138,10 +138,24 @@ Because Swift does not currently handles unions there is no way you can use simd
 **Raw Matrix functions**
 
 ```ruby
-  var projMatrix: [Float32]! = nil
-  var viewMatrix: [Float32]! = nil
+  struct matrixStructure {
+    
+    var projMatrix = Matrix4x4()
+    var viewMatrix = Matrix4x4()
+    var normalMatrix = Matrix4x4()
+  }
+
+
     
   var aspect = Float32(view.frame.size.width/view.frame.size.height)
-  projMatrix = matrix44MakePerspective(degToRad(60), aspect, 0.01, 5000)
-  viewMatrix = matrix44MakeLookAt(eyeVec, eyeVec + dirVec, upVec)
+  matrixData.projMatrix = matrix44MakePerspective(degToRad(60), aspect, 0.01, 5000)
+  
+  var cameraMatrix = matrix44MakeLookAt(eyeVec, eyeVec+dirVec, upVec)
+
+  var cameraViewMatrix = Matrix34(initialize: false)
+      cameraViewMatrix.setColumnMajor44(cameraMatrix)
+  
+  var modelViewMatrix = cameraViewMatrix * (model.modelMatrix * model.modelScale)
+  modelViewMatrix.getColumnMajor44(&matrixData.viewMatrix)
+
 ```
