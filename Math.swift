@@ -28,36 +28,65 @@ func swapValues<T>(inout a: T, inout b: T) {
 
 struct Matrix4x4 {
     
-    var m01:Float32 = 0
+    var m01:Float32 = 1
     var m02:Float32 = 0
     var m03:Float32 = 0
     var m04:Float32 = 0
     var m05:Float32 = 0
-    var m06:Float32 = 0
+    var m06:Float32 = 1
     var m07:Float32 = 0
     var m08:Float32 = 0
     var m09:Float32 = 0
     var m10:Float32 = 0
-    var m11:Float32 = 0
+    var m11:Float32 = 1
     var m12:Float32 = 0
     var m13:Float32 = 0
     var m14:Float32 = 0
     var m15:Float32 = 0
-    var m16:Float32 = 0
+    var m16:Float32 = 1
 }
 
 struct Matrix3x3 {
 
-    var m01:Float32 = 0
+    var m01:Float32 = 1
     var m02:Float32 = 0
     var m03:Float32 = 0
     var m04:Float32 = 0
-    var m05:Float32 = 0
+    var m05:Float32 = 1
     var m06:Float32 = 0
     var m07:Float32 = 0
     var m08:Float32 = 0
-    var m09:Float32 = 0
+    var m09:Float32 = 1
 }
+
+extension Matrix3x3: Printable {
+    
+    //dispaly in column major (OpenGL like)
+    
+    var description: String {
+        
+        var row0 = "\(m01),\(m04),\(m07)"
+        var row1 = "\(m02),\(m05),\(m08)"
+        var row2 = "\(m03),\(m06),\(m09)"
+        
+        return "[\(row0),\n\(row1),\n\(row2)]"
+    }
+}
+
+extension Matrix4x4: Printable {
+    
+    //dispaly in column major (OpenGL like)
+    var description: String {
+        
+        var row0 = "\(m01),\(m05),\(m09),\(m13)"
+        var row1 = "\(m02),\(m06),\(m10),\(m14)"
+        var row2 = "\(m03),\(m07),\(m11),\(m15)"
+        var row3 = "\(m04),\(m08),\(m12),\(m16)"
+        
+        return "[\(row0),\n\(row1),\n\(row2),\n\(row3)]"
+    }
+}
+
 
 func copyMatrix44(src: [Float32], inout dst: Matrix4x4) {
 
