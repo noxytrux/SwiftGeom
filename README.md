@@ -162,7 +162,7 @@ Because Swift does not currently handles unions, there is no way you can use sim
 
 ```
 
-**Loading data*
+**Loading data**
 
 ```ruby
 
