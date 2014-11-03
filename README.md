@@ -5,6 +5,8 @@ Math, Vector and Matrix library for your 3D Swift project / game.
 
 Please keep in mind this is still under development so there may be some things missing.
 
+**[DEMO PROJECT]**: (https://github.com/noxytrux/Arpeggios)
+
 # Genesis
 
 Because Swift does not currently handles unions there is no way you can use simd library in your swift project. You can also try to build some wrapper between objC and Swift but why? Currently there is a big lack of any kind of Vector and Matrix lib in Swift so I decided to write my own. (Yeah, GLKit stuff is also removed so no GLKVector , GLMatrix etc.)
