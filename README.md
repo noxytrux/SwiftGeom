@@ -5,7 +5,7 @@ Math, Vector and Matrix library for your 3D Swift project / game.
 
 Please keep in mind this is still under development so there may be some things missing.
 
-**[DEMO PROJECT]**: (https://github.com/noxytrux/Arpeggios)
+**[DEMO PROJECT](https://github.com/noxytrux/Arpeggios)**
 
 # Genesis
 
