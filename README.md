@@ -9,7 +9,7 @@ Please keep in mind this is still under development so there may be some things 
 
 # Genesis
 
-Because Swift does not currently handles unions there is no way you can use simd library in your swift project. You can also try to build some wrapper between objC and Swift but why? Currently there is a big lack of any kind of Vector and Matrix lib in Swift so I decided to write my own. (Yeah, GLKit stuff is also removed so no GLKVector , GLMatrix etc.)
+Because Swift does not currently handles unions, there is no way you can use simd library in your swift project. You can also try to build some wrapper between objC and Swift but why? Currently there is a big lack of any kind of Vector and Matrix lib in Swift so I decided to write my own. (Yeah, GLKit stuff is also removed so no GLKVector , GLMatrix etc.)
 
 ## Implemented:
 
@@ -159,5 +159,47 @@ Because Swift does not currently handles unions there is no way you can use simd
   
   var modelViewMatrix = cameraViewMatrix * (model.modelMatrix * model.modelScale)
   modelViewMatrix.getColumnMajor44(&matrixData.viewMatrix)
+
+```
+
+**Loading data*
+
+```ruby
+
+struct VertexInfo {
+    
+    var position = Vector3()
+    var normal = Vector3()
+    var texCoord = Vector2()
+}
+
+var readStream:NSFileHandle? = NSFileHandle(forReadingAtPath: path)
+var data : NSData! = nil
+var vertexCount: Uint32 = 0     
+
+data = readStream.readDataOfLength(sizeof(UInt32))
+data.getBytes(&vertexCount, length:sizeof(UInt32))
+                        
+var vertexData = [VertexInfo]()
+
+for(int index = 0; index < vertexCount; index++)
+{
+    var vertexInfo = geometryInfo()
+                            
+    data = readStream.readDataOfLength(sizeof(Vector3))
+    data.getBytes(&vertexInfo.position, length: sizeof(Vector3))
+                              
+    data = readStream.readDataOfLength(sizeof(Vector2))
+    data.getBytes(&vertexInfo.texCoord, length: sizeof(Vector2))
+                              
+    data = readStream.readDataOfLength(sizeof(Vector3))
+    data.getBytes(&vertexInfo.normal, length: sizeof(Vector3))
+              
+    vertexData.append(vertexInfo)
+                              
+    //println("pos: \(position) normal: \(normal) coord: \(coord)")
+}
+
+var vertexBuffer = device.newBufferWithBytes(vertexData, length:Int(vertexCount) * sizeof(VertexInfo), options:nil)
 
 ```
