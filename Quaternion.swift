@@ -258,15 +258,17 @@ extension Quaternion {
     func rot(v: Vector3) -> Vector3 {
         
         var qv = Vector3(x: x,y: y,z: z)
-    
-        return (v * (w*w - 0.5) + (qv.cross(v)) * w + qv * (qv.dot(v)) ) * 2.0
+        var crossDot = (qv.cross(v)) * w + qv * (qv.dot(v))
+        
+        return (v * (w*w - 0.5) + crossDot) * 2.0
     }
     
     func invRot(v: Vector3) -> Vector3 {
         
         var qv = Vector3(x: x,y: y,z: z)
-    
-        return (v * (w*w - 0.5) - (qv.cross(v)) * w + qv * (qv.dot(v)) ) * 2.0
+        var crossDot = (qv.cross(v)) * w + qv * (qv.dot(v))
+        
+        return (v * (w*w - 0.5) - crossDot) * 2.0
     }
 
     func transform(v: Vector3, p: Vector3) -> Vector3 {
